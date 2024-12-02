@@ -7,4 +7,8 @@
     <RootNamespace>Payment_Service.Api</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
