@@ -10,7 +10,19 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="UnitOfWork\" />
-    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Payment-Service.Application\Payment-Service.Application.csproj" />
+    <ProjectReference Include="..\Payment-Service.Core\Payment-Service.Core.csproj" />
   </ItemGroup>
 
 </Project>
