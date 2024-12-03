@@ -1,6 +1,8 @@
-﻿namespace Payment_Service.Application.Services.Contracts;
+﻿using Payment_Service.Core.Entities;
 
-public interface IPaymentService
+namespace Payment_Service.Application.Services.Contracts;
+
+public interface IPaymentService : IGenericService<Payment>
 {
     
 }
