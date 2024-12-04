@@ -1,6 +1,4 @@
-﻿using Payment_Service.Core.Entities;
-
-namespace Payment_Service.Application.Interfaces;
+﻿namespace Payment_Service.Application.Interfaces;
 
 public interface IRepository<T> where T : class?
 {

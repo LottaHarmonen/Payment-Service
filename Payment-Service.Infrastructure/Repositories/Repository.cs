@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Payment_Service.Application.Interfaces;
-using Payment_Service.Core.Entities;
 using Payment_Service.Infrastructure.Data;
 
 namespace Payment_Service.Infrastructure.Repositories;
@@ -9,9 +7,9 @@ namespace Payment_Service.Infrastructure.Repositories;
 public class Repository<T> : IRepository<T> where T : class
 {
     protected readonly DbSet<T?> _dbSet;
-    private readonly MyDbContext _dbContext;
+    private readonly PaymentDbContext _dbContext;
 
-    public Repository(MyDbContext dbContext)
+    public Repository(PaymentDbContext dbContext)
     {
         _dbContext = dbContext;
         _dbSet = dbContext.Set<T>();

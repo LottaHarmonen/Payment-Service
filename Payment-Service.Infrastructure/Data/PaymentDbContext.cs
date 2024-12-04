@@ -3,7 +3,7 @@ using Payment_Service.Core.Entities;
 
 namespace Payment_Service.Infrastructure.Data;
 
-public class MyDbContext(DbContextOptions<MyDbContext> options) : DbContext(options)
+public class PaymentDbContext(DbContextOptions<PaymentDbContext> options) : DbContext(options)
 {
     public DbSet<Payment> Payments { get; set; }
 

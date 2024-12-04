@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Payment_Service.Application.Services.Contracts;
 using Payment_Service.Core.Entities;
 

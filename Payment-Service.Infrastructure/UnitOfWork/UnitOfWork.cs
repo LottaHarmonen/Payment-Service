@@ -6,11 +6,11 @@ namespace Payment_Service.Infrastructure.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly MyDbContext _dbContext;
+    private readonly PaymentDbContext _dbContext;
     public IPaymentRepository? Payments { get; set; }
 
     public UnitOfWork(
-        MyDbContext dbContext,
+        PaymentDbContext dbContext,
         IPaymentRepository paymentRepository
         )
     {
