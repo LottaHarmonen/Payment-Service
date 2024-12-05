@@ -9,23 +9,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: List the files in the repository for debugging
+      - name: List files in the repository
+        run: |
+          echo "Current working directory"
+          pwd
+          echo "List all files"
+          ls -R
+
+      # Step 3: Login to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKER_PAYMENT_SERVICE }}
           password: ${{ secrets.PAYMENT_SERVICE_SECRET }}
 
+      # Step 4: Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      # Step 5: Build the Docker image (for testing)
       - name: Build and test
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./Payment-Service.Api/Dockerfile
+          context: .  # Root directory context
+          file: ./Payment-Service.Api/Dockerfile  # Path to Dockerfile
           target: build
           load: true
 
+      # Step 6: Build and push the Docker image
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -33,3 +49,4 @@ jobs:
           push: true
           target: final
           tags: ${{ vars.DOCKER_PAYMENT_SERVICE }}/${{ github.event.repository.name }}:latest
+
