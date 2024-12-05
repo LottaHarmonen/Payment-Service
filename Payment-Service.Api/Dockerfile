@@ -25,7 +25,7 @@ RUN dotnet build "Payment-Service.Api/Payment-Service.Api.csproj" -c Release
 
 # Stage 3: Publish WebShop (only proceeds if tests pass)
 FROM build AS publish
-WORKDIR /src/PaymentService.Api
+WORKDIR /src/Payment-Service.Api
 RUN dotnet publish "Payment-Service.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Stage 4: Final runtime image for WebShop
