@@ -13,6 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Convert repo name to lowercase
+        id: repo_name
+        run: echo "REPO_NAME=$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       # Step 2: List the files in the repository for debugging
       - name: List files in the repository
         run: |
@@ -32,21 +36,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Step 5: Build the Docker image (for testing)
-      - name: Build and test
-        uses: docker/build-push-action@v6
-        with:
-          context: .  # Root directory context
-          file: ./Payment-Service.Api/Dockerfile  # Path to Dockerfile
-          target: build
-          load: true
-
       # Step 6: Build and push the Docker image
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: .  # Root directory context
+          file: ./Payment-Service.Api/Dockerfile  # Path to the Dockerfile inside Payment-Service.Api
           platforms: linux/amd64,linux/arm64
           push: true
           target: final
-          tags: ${{ vars.DOCKER_PAYMENT_SERVICE }}/${{ github.event.repository.name }}:latest
+          tags: ${{ vars.DOCKER_PAYMENT_SERVICE }}/${{ env.REPO_NAME }}:latest
 
