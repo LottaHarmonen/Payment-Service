@@ -13,6 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Convert repo name to lowercase
+        id: repo_name
+        run: echo "REPO_NAME=$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       # Step 2: List the files in the repository for debugging
       - name: List files in the repository
         run: |
@@ -48,6 +52,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           target: final
-          tags: ${{ vars.DOCKER_PAYMENT_SERVICE }}/${{ github.event.repository.name | toLowerCase }}:latest
-
+          tags: ${{ vars.DOCKER_PAYMENT_SERVICE }}/${{ env.REPO_NAME }}:latest
 
