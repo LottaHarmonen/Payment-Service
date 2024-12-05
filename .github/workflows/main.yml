@@ -48,5 +48,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           target: final
-          tags: ${{ vars.DOCKER_PAYMENT_SERVICE }}/${{ github.event.repository.name }}:latest
+          tags: ${{ vars.DOCKER_PAYMENT_SERVICE }}/${{ github.event.repository.name | toLowerCase }}:latest
+
 
