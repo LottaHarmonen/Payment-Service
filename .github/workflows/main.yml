@@ -36,20 +36,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Verify Dockerfile path
-        run: |
-          echo "Listing files in Payment-Service.Api:"
-          ls ./Payment-Service.Api
-
-      # Step 5: Build the Docker image (for testing)
-      - name: Build and test
-        uses: docker/build-push-action@v6
-        with:
-          context: .  # Root directory context
-          file: ./Payment-Service.Api/Dockerfile  # Path to Dockerfile
-          target: build
-          load: true
-
       # Step 6: Build and push the Docker image
       - name: Build and push
         uses: docker/build-push-action@v6
