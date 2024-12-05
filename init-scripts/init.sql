@@ -1,0 +1,2 @@
+CREATE DATABASE PaymentDb;
+GO

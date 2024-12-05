@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "SuperSafePass.123"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+      - ./init-scripts:/init-scripts # Mount init-scripts folder
+    entrypoint:
+      [
+        "/bin/bash",
+        "-c",
+        "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'SuperSafePass.123' -i /init-scripts/init.sql && /opt/mssql/bin/sqlservr",
+      ]
+
+  payment-service:
+    build:
+      context: ./Payment-Service.Api # Build payment service from the correct context
+      dockerfile: Dockerfile # Point to Dockerfile inside Payment-Service.Api
+    container_name: PaymentService
+    ports:
+      - "8080:8080"
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=db;Database=PaymentDb;User Id=sa;Password=SuperSafePass.123;TrustServerCertificate=True;"
+    depends_on:
+      - db
+
+volumes:
+  sqlserver_data:
