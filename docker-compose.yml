@@ -10,18 +10,11 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - sqlserver_data:/var/opt/mssql
-      - ./init-scripts:/init-scripts # Mount init-scripts folder
-    entrypoint:
-      [
-        "/bin/bash",
-        "-c",
-        "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'SuperSafePass.123' -i /init-scripts/init.sql && /opt/mssql/bin/sqlservr",
-      ]
 
   payment-service:
     build:
-      context: ./Payment-Service.Api # Build payment service from the correct context
-      dockerfile: Dockerfile # Point to Dockerfile inside Payment-Service.Api
+      context: .
+      dockerfile: ./Payment-Service.Api/Dockerfile
     container_name: PaymentService
     ports:
       - "8080:8080"
@@ -32,3 +25,5 @@ services:
 
 volumes:
   sqlserver_data:
+
+
