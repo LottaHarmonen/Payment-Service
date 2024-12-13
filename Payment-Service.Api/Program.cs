@@ -1,3 +1,4 @@
+using Polly;
 using Microsoft.EntityFrameworkCore;
 using Payment_Service.Application.Interfaces;
 using Payment_Service.Application.Services.Contracts;
@@ -5,6 +6,7 @@ using Payment_Service.Application.Services.Implementations;
 using Payment_Service.Infrastructure.Data;
 using Payment_Service.Infrastructure.Repositories;
 using Payment_Service.Infrastructure.UnitOfWork;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,11 +27,29 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+var policy = Policy.Handle<SqlException>()
+    .WaitAndRetryAsync(30, attempt => TimeSpan.FromSeconds(5), 
+        (exception, timeSpan, retryCount, context) =>
+        {
+            Console.WriteLine($"Retry {retryCount} failed, waiting {timeSpan.TotalSeconds} seconds.");
+        });
 
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<PaymentDbContext>();
-    dbContext.Database.Migrate(); 
+    try
+    {
+        await policy.ExecuteAsync(async () =>
+        {
+            await dbContext.Database.MigrateAsync();
+            Console.WriteLine("Database connection succeeded and migration done.");
+        });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Could not connect to database {ex.Message}");
+        throw;
+    }
 }
 
 app.UseSwagger();
