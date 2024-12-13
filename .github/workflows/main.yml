@@ -3,7 +3,7 @@ name: Docker Tag and Push - Payment Service
 on:
   push:
     branches:
-      - master  # Använd 'master' om det behövs för ert projekt
+      - main  # Använd 'master' om det behövs för ert projekt
 
 jobs:
   tag-and-push:
