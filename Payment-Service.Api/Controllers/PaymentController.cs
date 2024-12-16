@@ -16,7 +16,7 @@ namespace Payment_Service.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddCustomer(Payment payment)
+        public async Task<ActionResult> AddPayment(Payment payment)
         {
             if (payment is null)
                 return BadRequest();
@@ -26,7 +26,7 @@ namespace Payment_Service.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Payment>> GetCustomerById(int id)
+        public async Task<ActionResult<Payment>> GetPaymentById(int id)
         {
             var payment = await _paymentService.Get(id);
 
